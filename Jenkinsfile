@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'golang:1.24'
+            image 'golang:1.22'
             reuseNode true
         }
     }
@@ -18,7 +18,7 @@ pipeline {
     stages {
         stage('Init') {
             steps {
-                deleteDir()
+                cleanWs()
                 sh '''
                   go version
                   mkdir -p bin
