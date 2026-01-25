@@ -38,7 +38,7 @@ pipeline {
             steps {
                 sh '''
                   export CGO_ENABLED=1
-                  go test $(go list ./... | grep -v /vendor/) -v -coverprofile=coverage.out -covermode=atomic || true
+                  go test $(go list ./... | grep "^github.com/iamgenii") -v -coverprofile=coverage.out -covermode=atomic || true
                 '''
             }
         }
