@@ -11,6 +11,7 @@ pipeline {
         CGO_ENABLED = '0'
         GOPATH = '/tmp/go'
         GOCACHE = '/tmp/go-build'
+        GOLANGCI_LINT_CACHE = '/tmp/golangci-lint'
         PATH = "/tmp/go/bin:${PATH}"
     }
 
