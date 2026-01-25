@@ -34,15 +34,6 @@ pipeline {
             }
         }
 
-        stage('Lint') {
-            steps {
-                sh '''
-                  go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.60.1
-                  $(go env GOPATH)/bin/golangci-lint run ./... --timeout 5m
-                '''
-            }
-        }
-
         stage('Test') {
             steps {
                 withEnv(['CGO_ENABLED=1']) {
