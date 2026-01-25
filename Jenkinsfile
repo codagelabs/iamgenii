@@ -21,7 +21,7 @@ pipeline {
         stage('Go Build Pipeline') {
             agent {
                 docker {
-                    image 'golang:1.24'
+                    image 'golang:1.21'
                     reuseNode true
                 }
             }

@@ -1,6 +1,8 @@
 module github.com/iamgenii
 
-go 1.24.4
+go 1.24.0
+
+toolchain go1.24.12
 
 require (
 	github.com/JesusIslam/goinblue v0.0.0-20170109083118-3ce63f93944c
@@ -12,7 +14,7 @@ require (
 	github.com/jinzhu/gorm v1.9.16
 	github.com/sirupsen/logrus v1.9.4
 	github.com/square/go-jose/v3 v3.0.0-20200630053402-0a67ce9b0693
-	golang.org/x/crypto v0.47.0
+	golang.org/x/crypto v0.17.0
 )
 
 require (
