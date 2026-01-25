@@ -1,68 +1,54 @@
 pipeline {
-    agent none
+    agent {
+        docker {
+            image 'golang:1.22'
+            reuseNode true
+        }
+    }
 
     environment {
         GO111MODULE = 'on'
         CGO_ENABLED = '0'
         GOPATH = '/tmp/go'
         GOCACHE = '/tmp/go-build'
-        GOLANGCI_LINT_CACHE = '/tmp/golangci-lint'
         PATH = "/tmp/go/bin:${PATH}"
     }
 
     stages {
-        stage('Clean Workspace') {
-            agent any
+        stage('Init') {
             steps {
-                cleanWs()
+                sh '''
+                  go version
+                  mkdir -p bin
+                '''
             }
         }
 
-        stage('Go Build Pipeline') {
-            agent {
-                docker {
-                    image 'golang:1.22'
-                    reuseNode true
+        stage('Dependencies') {
+            steps {
+                sh '''
+                  go mod download
+                  go mod verify
+                '''
+            }
+        }
+
+        stage('Test') {
+            steps {
+                withEnv(['CGO_ENABLED=1']) {
+                    sh '''
+                      go test ./... -v -race -coverprofile=coverage.out -covermode=atomic
+                    '''
                 }
             }
+        }
 
-            stages {
-                stage('Init') {
-                    steps {
-                        sh '''
-                          go version
-                          mkdir -p bin
-                        '''
-                    }
-                }
-
-                stage('Dependencies') {
-                    steps {
-                        sh '''
-                          go mod download
-                          go mod verify
-                        '''
-                    }
-                }
-
-                stage('Test') {
-                    steps {
-                        withEnv(['CGO_ENABLED=1']) {
-                            sh '''
-                              go test ./... -v -race -coverprofile=coverage.out -covermode=atomic
-                            '''
-                        }
-                    }
-                }
-
-                stage('Build') {
-                    steps {
-                        sh '''
-                          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
-                          go build -o bin/app
-                        '''
-                    }
-                }
+        stage('Build') {
+            steps {
+                sh '''
+                  CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
+                  go build -o bin/app
+                '''
             }
         }
     }
