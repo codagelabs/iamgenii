@@ -124,7 +124,7 @@ func (b *AdminsServiceImpl) GetAdmins(ctx context.Context,
 // UpdateAdmin **
 func (b *AdminsServiceImpl) UpdateAdmin(ctx context.Context, id string,
 	admin models.UpdateAdminRequest) (*string, *imgnErr.IMGNError) {
-	log.Logger(ctx).Debugf("AdminsService.UpdateAdmin: In update admin request data  %s and updated by &s: ", admin, id)
+	log.Logger(ctx).Debugf("AdminsService.UpdateAdmin: In update admin request data  %v and updated by %s: ", admin, id)
 
 	if strings.TrimSpace(admin.Phone) != "" {
 		isValid := b.mobileValidator.IsValidMobileNumber(admin.Phone)
@@ -143,7 +143,7 @@ func (b *AdminsServiceImpl) UpdateAdmin(ctx context.Context, id string,
 
 // DeleteAdmin  send request to delete admin from db
 func (b *AdminsServiceImpl) DeleteAdmin(ctx context.Context, id string) (interface{}, *imgnErr.IMGNError) {
-	log.Logger(ctx).Debugf("AdminsService.DeleteAdmin: Delete admin request delete by &s: ", id)
+	log.Logger(ctx).Debugf("AdminsService.DeleteAdmin: Delete admin request delete by %s: ", id)
 
 	err := b.adminRepo.DeleteAdmin(ctx, id)
 	if err != nil {

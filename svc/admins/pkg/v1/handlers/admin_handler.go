@@ -171,7 +171,7 @@ func (handler AdminHandlers) UpdateAdminProfile(w http.ResponseWriter, req *http
 	strID := fmt.Sprint(*id)
 	resp, err := handler.adminSvc.UpdateAdmin(ctx, strID, reqData)
 	if err != nil {
-		log.Logger(ctx).Errorf("AdminHandler.UpdateAdmin: Error by service : ", err)
+		log.Logger(ctx).Errorf("AdminHandler.UpdateAdmin: Error by service : %v", err)
 		handler.httpWriter.WriteHTTPError(w, err)
 		return
 	}
@@ -185,7 +185,7 @@ func (handler AdminHandlers) GetAdminProfile(w http.ResponseWriter,
 	log.Logger(ctx).Debug("AdminHandler.GetAdminProfile: In handler function")
 	id, err := handler.httpReader.GetIDFromToken(req)
 	if err != nil {
-		log.Logger(ctx).Errorf("AdminHandler.GetAdminProfile: Error In get user id from token : ", err)
+		log.Logger(ctx).Errorf("AdminHandler.GetAdminProfile: Error In get user id from token : %v", err)
 		handler.httpWriter.WriteHTTPError(w, err)
 		return
 	}
@@ -193,7 +193,7 @@ func (handler AdminHandlers) GetAdminProfile(w http.ResponseWriter,
 	//request to service layer
 	resp, err := handler.adminSvc.GetAdminByID(ctx, strID)
 	if err != nil {
-		log.Logger(ctx).Errorf("AdminHandler.GetAdminProfile: Error by service: ", err)
+		log.Logger(ctx).Errorf("AdminHandler.GetAdminProfile: Error by service: %v", err)
 		handler.httpWriter.WriteHTTPError(w, err)
 		return
 	}
@@ -208,7 +208,7 @@ func (handler AdminHandlers) DeleteAdmin(w http.ResponseWriter, req *http.Reques
 	//get url path variables
 	id, err := handler.httpReader.GetURLParam(req, adminIDUrlParam)
 	if err != nil { //
-		log.Logger(ctx).Errorf("AdminHandler.DeleteAdmin: Error in get url parameter name %s : ", adminIDUrlParam, err)
+		log.Logger(ctx).Errorf("AdminHandler.DeleteAdmin: Error in get url parameter name %s : %v", adminIDUrlParam, err)
 		handler.httpWriter.WriteHTTPError(w, err)
 		return
 	}
@@ -216,7 +216,7 @@ func (handler AdminHandlers) DeleteAdmin(w http.ResponseWriter, req *http.Reques
 	//request to service layer
 	resp, err := handler.adminSvc.DeleteAdmin(ctx, strID)
 	if err != nil {
-		log.Logger(ctx).Errorf("AdminHandler.DeleteAdmin: Error by service : ", err)
+		log.Logger(ctx).Errorf("AdminHandler.DeleteAdmin: Error by service : %v", err)
 		handler.httpWriter.WriteHTTPError(w, err)
 		return
 	}
