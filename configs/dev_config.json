@@ -1,0 +1,23 @@
+{
+  "environment": "DEV",
+  "jwt_secret": {
+    "jwt_secret_key": "bc65223d-2c4d-42c1-a82d-b0aa2821047c"
+  },
+  "password_config": {
+    "password_max_length": 16,
+    "password_min_length": 8
+  },
+  "db_config": {
+    "db_log_mode": true,
+    "db_connection_pool": {
+      "max_open_connection": 25,
+      "max_ideal_connection": 5,
+      "max_connection_lifetime_in_minutes": 5
+    }
+  },
+  "auth_config": {
+  "jwt_encryption_private_key": "-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEAh7BcU+ZMHqXoYvNFfX1WsuTvaEJzgq31N4brjl09gLAPW6hb\nr/JfLcJU+KU9tglr9MT5prMXMdSDAM4DXUOusV5C2EJoh5EiSpCrWQXGAfCPV5YY\niauuISh6KStyZ/jL1fWA2PhuEBkOdYLeQCKRdhjORjqT9GftjuTXRLf70ji/XPal\n+qeZ9TFyFWVP8UZH1U+5AL1qq1aGRrPwoIVjSMMIP20+ONpfFGOCTITrImpL4eq0\nLLZl7n/+N99ijsA5Idr+c2Rwh6tfJIz9FvZ08TjQOiXp7gA+KEYtvFjmBxw54X6i\npiP77bbIy3B6EWaR16UceIhxExsi0vFcdt/5JwIDAQABAoIBAAdcPrXiYTCsaT2s\n2pEjEmfj2US7jg6BpzKa4/41+pcXdc3QBSE3MYiG6RsPw5gzTKLbaHttbY2rbGvH\nwRD3EevXJCMc/xSTf9uxm0nZ8VK7nNrwbmZRZMGxs2a2T59qNIxno9ShLT88TLd9\nINczyNYyJEZU+R+h35YHvdGhdUyC6TIJws/26U2/bedXt8bMJJh2UoDncYacoLTG\n2YJhkQRShL4Hve8UzjSHSdG0z8/EDK9JjkcazjRKn4Qbv7Li84n7F7erfNXh4YBh\npwoMcUZrkN+Tmee6U3b5AGHw50wjWRnfOmtrdOpCLjO44dRTUETW6wIbmXxrHQoC\nZgx2LiECgYEAztib6nlgf2F+2lDiOPeohtOenlf+ta+/nLGcpihcEfpOMSQS3oUC\nkqoTrav9l20N8UCvmxPp4WmqpLntkClRj+CwrJJauvOoBKBhfHciNk3TK5eSawis\n4B1SOZDZkUXKwGstnBkuw2C0CargO0dFtja9itdn9xkUbI5P0/+9wbcCgYEAp+7v\nKIy/V+IQqiWcSPxbw2lSaWxU0ciFwDgDLd1Cfi1vy3k4h/gzTd4SBRdNP6XQ+tSh\nK1cVJ54MvXaCJXOSWRxk4v+zL/h9PbFhxMS8dSkiJb2wspOBFKRNp3toxj3sWntC\n9l+ZhsaKdGLzpzDgzBAmA3oyb7/xJc3/Nyy6xBECgYBpaB7ENQhEwXU4YaF2sFYU\nJwEc5fCpu57kheozDjwk+S4hgqWO+a8e+EbA6PV41h0VxQX3/ATiVsub2BfEsBmd\nPT4rIwXTYVlMykIDgF5R2AT1oO7/VlNqfeap6TPGAQ/aUIPUmUyoSb5VctuDucU/\nntOmTjDvzbsHutnZSej0LwKBgC1GgNoY4DmMbFvDGhifWQodKifcGh4ZBt5k+45w\n+c1U6LAd9XzLEOHsfkU7HAuN5ALMMsuhhcWRmfO2sK3yM8GsoxKER8YmI3XvjeFj\n/T9FILy2IJ50oDd1eK4v2nagGUnns40DBzxL6OYqC3DG/8Rkkisb1d9FC3nayPUS\nLSRRAoGBAJtCFrhp7CMo4ZOJPXxbS0xpXOjrmIFjCXLE0MyNYFqv8qJVrBRqk/rg\nEXHA0QSkXXZefGhYXIzzqXTBrp2XokFuLCAlmyx3ldZZdFV9Lc+zNkl45UtFcKxE\n19GGQ7s2qQ683Vjt9cAPogvyVwPulBxrIkRfgc2sdytHjQ9xk8oa\n-----END RSA PRIVATE KEY-----",
+  "jwt_encryption_public_key": "-----BEGIN RSA PUBLIC KEY-----\nMIIBCgKCAQEAh7BcU+ZMHqXoYvNFfX1WsuTvaEJzgq31N4brjl09gLAPW6hbr/Jf\nLcJU+KU9tglr9MT5prMXMdSDAM4DXUOusV5C2EJoh5EiSpCrWQXGAfCPV5YYiauu\nISh6KStyZ/jL1fWA2PhuEBkOdYLeQCKRdhjORjqT9GftjuTXRLf70ji/XPal+qeZ\n9TFyFWVP8UZH1U+5AL1qq1aGRrPwoIVjSMMIP20+ONpfFGOCTITrImpL4eq0LLZl\n7n/+N99ijsA5Idr+c2Rwh6tfJIz9FvZ08TjQOiXp7gA+KEYtvFjmBxw54X6ipiP7\n7bbIy3B6EWaR16UceIhxExsi0vFcdt/5JwIDAQAB\n-----END RSA PUBLIC KEY-----"
+
+  }
+}
