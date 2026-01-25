@@ -1,6 +1,5 @@
 package repositories
 
-import "C"
 import (
 	"context"
 	"time"
