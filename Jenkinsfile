@@ -4,8 +4,10 @@ pipeline {
     stages {
         stage('Download Dependencies') {
             agent{
-                image 'golang:1.24'
-                
+                docker {
+                    image 'golang:1.24'
+                    reuseNode true
+                }
             }
             steps {
                 sh '''
