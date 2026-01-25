@@ -19,8 +19,6 @@ pipeline {
         stage('Init') {
             steps {
                 deleteDir()
-            }
-            steps {
                 sh '''
                   go version
                   mkdir -p bin
