@@ -37,7 +37,7 @@ pipeline {
             steps {
                 sh '''
                   go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.60.1
-                  golangci-lint run ./... --timeout 5m
+                  $(go env GOPATH)/bin/golangci-lint run ./... --timeout 5m
                 '''
             }
         }
