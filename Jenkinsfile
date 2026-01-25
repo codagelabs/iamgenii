@@ -18,9 +18,11 @@ pipeline {
     stages {
         stage('Init') {
             steps {
+                deleteDir()
+            }
+            steps {
                 sh '''
                   go version
-                  rm -rf go
                   mkdir -p bin
                 '''
             }
@@ -39,6 +41,8 @@ pipeline {
             steps {
                 withEnv(['CGO_ENABLED=1']) {
                     sh '''
+                      pwd
+                      ls go.mod
                       go test ./... -v -race -coverprofile=coverage.out -covermode=atomic
                     '''
                 }
