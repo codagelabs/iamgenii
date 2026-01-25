@@ -4,6 +4,7 @@ pipeline {
     environment {
         GO111MODULE = 'on'
         CGO_ENABLED = '0'
+        GOTOOLCHAIN = 'auto'
         GOPATH = '/tmp/go'
         GOCACHE = '/tmp/go-build'
         PATH = "/tmp/go/bin:${PATH}"
