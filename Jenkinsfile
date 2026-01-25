@@ -20,6 +20,7 @@ pipeline {
             steps {
                 sh '''
                   go version
+                  rm -rf go
                   mkdir -p bin
                 '''
             }
