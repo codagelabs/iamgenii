@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'golang:1.22'
+            image 'golang:1.24'
             reuseNode true
         }
     }
@@ -15,6 +15,22 @@ pipeline {
     }
 
     stages {
+        stage('Clean Workspace') {
+            agent any
+            steps {
+                cleanWs()
+            }
+        }
+
+        stage('Go Build Pipeline') {
+            agent {
+                docker {
+                    image 'golang:1.22'
+                    reuseNode true
+                }
+            }
+
+            stages {
         stage('Init') {
             steps {
                 sh '''
