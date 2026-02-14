@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  iamgenii:
+    image: iamgenii
+    ports:
+      - "8080:8080" 
+    depends_on:
+      - my-sql
+  my-sql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: iamgenii
+      MYSQL_USER: iamgenii
+      MYSQL_PASSWORD: iamgenii
+    ports:
+      - "3306:3306"
+    volumes:
+        - mysql_data:/var/lib/mysql
