@@ -116,6 +116,9 @@ pipeline {
                   pwd
                   ls -R helm
 
+                  # Remove old helm packages from previous builds
+                  rm -f *.tgz
+
                   # Create manifest artifact
                   helm template iamgenii ${WORKSPACE}/helm/iamgenii > manifest.yaml
 
