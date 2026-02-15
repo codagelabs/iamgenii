@@ -62,8 +62,8 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: env.DOCKER_CREDS_ID, passwordVariable: 'DOCKER_PASS', usernameVariable: 'DOCKER_USER')]) {
                         sh '''
-                          # Install Docker CLI
-                          curl -fsSL https://download.docker.com/linux/static/stable/x86_64/docker-20.10.24.tgz -o docker.tgz
+                          # Install Docker CLI (newer version for API 1.44+ compatibility)
+                          curl -fsSL https://download.docker.com/linux/static/stable/x86_64/docker-27.4.1.tgz -o docker.tgz
                           tar xzvf docker.tgz
                           mv docker/docker ./bin/docker
                           rm -rf docker docker.tgz
