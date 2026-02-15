@@ -61,21 +61,24 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: env.DOCKER_CREDS_ID, passwordVariable: 'DOCKER_PASS', usernameVariable: 'DOCKER_USER')]) {
                         sh '''
-                          export PATH=$PWD/bin:$PATH
                           # Install Docker CLI
                           curl -fsSL https://download.docker.com/linux/static/stable/x86_64/docker-20.10.24.tgz -o docker.tgz
                           tar xzvf docker.tgz
                           mv docker/docker ./bin/docker
                           rm -rf docker docker.tgz
 
+                          # Debug
+                          pwd
+                          ls -l ./bin/docker
+
                           # Login
-                          echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+                          echo $DOCKER_PASS | ./bin/docker login -u $DOCKER_USER --password-stdin
                           
                           # Build Docker image
-                          docker build -t ${IMAGE_REPO}:${BUILD_NUMBER} .
+                          ./bin/docker build -t ${IMAGE_REPO}:${BUILD_NUMBER} .
                           
                           # Push Image
-                          docker push ${IMAGE_REPO}:${BUILD_NUMBER}
+                          ./bin/docker push ${IMAGE_REPO}:${BUILD_NUMBER}
                         '''
                     }
                 }
