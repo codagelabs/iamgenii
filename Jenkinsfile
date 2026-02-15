@@ -52,6 +52,22 @@ pipeline {
             }
         }
 
+        stage('Build Image') {
+            steps {
+                sh '''
+                  # Install Docker CLI
+                  curl -fsSL https://download.docker.com/linux/static/stable/x86_64/docker-20.10.24.tgz -o docker.tgz
+                  tar xzvf docker.tgz
+                  mv docker/docker ./bin/docker
+                  rm -rf docker docker.tgz
+                  
+                  # Build Docker image
+                  # Using the locally installed docker client connecting to the socket mounted from host
+                  docker build -t iamgenii:${BUILD_NUMBER} .
+                '''
+            }
+        }
+
         stage('Package Helm') {
             steps {
                 sh '''
@@ -60,6 +76,10 @@ pipeline {
                   curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
                   chmod 700 get_helm.sh
                   USE_SUDO=false HELM_INSTALL_DIR=$PWD/bin ./get_helm.sh
+
+                  # Update chart image tag to match build number
+                  # This ensures the packaged chart uses the image we just built
+                  sed -i "s/tag: .*/tag: \"${BUILD_NUMBER}\"/" ${WORKSPACE}/helm/iamgenii/values.yaml
 
                   # Debug directory
                   pwd
