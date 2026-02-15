@@ -55,10 +55,11 @@ pipeline {
         stage('Package Helm') {
             steps {
                 sh '''
+                  export PATH=$PWD/bin:$PATH
                   # Install helm locally
                   curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
                   chmod 700 get_helm.sh
-                  USE_SUDO=false HELM_INSTALL_DIR=./bin ./get_helm.sh
+                  USE_SUDO=false HELM_INSTALL_DIR=$PWD/bin ./get_helm.sh
 
                   # Create manifest artifact
                   helm template iamgenii ./helm/iamgenii > manifest.yaml
