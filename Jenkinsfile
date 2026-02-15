@@ -2,7 +2,9 @@ pipeline {
     agent {
         docker {
             image 'golang:1.21'
-            args '-v /var/run/docker.sock:/var/run/docker.sock'
+            // Mount host Docker socket and add host's docker group so the container user can access it.
+            // If you still get permission denied, set DOCKER_GID to your host's docker group GID (run: stat -c %g /var/run/docker.sock on the Jenkins host).
+            args '-v /var/run/docker.sock:/var/run/docker.sock --group-add 999'
         }
     }
 
