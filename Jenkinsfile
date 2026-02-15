@@ -13,6 +13,10 @@ pipeline {
         GOPATH = "${WORKSPACE}/go"
         GOCACHE = "${WORKSPACE}/.cache/go-build"
         PATH = "${WORKSPACE}/bin:${GOPATH}/bin:${PATH}"
+        
+        // Docker Settings - Update these!
+        IMAGE_REPO = "rahulbshinde1/iamgenii"
+        DOCKER_CREDS_ID = "docker-hub-credentials"
     }
 
     stages {
@@ -52,19 +56,28 @@ pipeline {
             }
         }
 
-        stage('Build Image') {
+        stage('Build & Push Image') {
             steps {
-                sh '''
-                  # Install Docker CLI
-                  curl -fsSL https://download.docker.com/linux/static/stable/x86_64/docker-20.10.24.tgz -o docker.tgz
-                  tar xzvf docker.tgz
-                  mv docker/docker ./bin/docker
-                  rm -rf docker docker.tgz
-                  
-                  # Build Docker image
-                  # Using the locally installed docker client connecting to the socket mounted from host
-                  docker build -t iamgenii:${BUILD_NUMBER} .
-                '''
+                script {
+                    withCredentials([usernamePassword(credentialsId: env.DOCKER_CREDS_ID, passwordVariable: 'DOCKER_PASS', usernameVariable: 'DOCKER_USER')]) {
+                        sh '''
+                          # Install Docker CLI
+                          curl -fsSL https://download.docker.com/linux/static/stable/x86_64/docker-20.10.24.tgz -o docker.tgz
+                          tar xzvf docker.tgz
+                          mv docker/docker ./bin/docker
+                          rm -rf docker docker.tgz
+
+                          # Login
+                          echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+                          
+                          # Build Docker image
+                          docker build -t ${IMAGE_REPO}:${BUILD_NUMBER} .
+                          
+                          # Push Image
+                          docker push ${IMAGE_REPO}:${BUILD_NUMBER}
+                        '''
+                    }
+                }
             }
         }
 
@@ -77,8 +90,8 @@ pipeline {
                   chmod 700 get_helm.sh
                   USE_SUDO=false HELM_INSTALL_DIR=$PWD/bin ./get_helm.sh
 
-                  # Update chart image tag to match build number
-                  # This ensures the packaged chart uses the image we just built
+                  # Update chart values (Image and Tag)
+                  sed -i "s|repository: .*|repository: ${IMAGE_REPO}|" ${WORKSPACE}/helm/iamgenii/values.yaml
                   sed -i "s/tag: .*/tag: \"${BUILD_NUMBER}\"/" ${WORKSPACE}/helm/iamgenii/values.yaml
 
                   # Debug directory
