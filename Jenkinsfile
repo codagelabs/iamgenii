@@ -51,11 +51,28 @@ pipeline {
                 '''
             }
         }
+
+        stage('Package Helm') {
+            steps {
+                sh '''
+                  # Install helm
+                  curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+                  chmod 700 get_helm.sh
+                  ./get_helm.sh
+
+                  # Create manifest artifact
+                  helm template iamgenii ./helm/iamgenii > manifest.yaml
+
+                  # Package helm chart
+                  helm package ./helm/iamgenii
+                '''
+            }
+        }
     }
 
     post {
         always {
-            archiveArtifacts artifacts: 'bin/*,coverage.out', allowEmptyArchive: true
+            archiveArtifacts artifacts: 'bin/*,coverage.out,manifest.yaml,*.tgz', allowEmptyArchive: true
         }
         success {
             echo '✅ Pipeline completed successfully'

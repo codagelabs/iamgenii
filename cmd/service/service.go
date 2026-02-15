@@ -368,5 +368,6 @@ func Run() {
 	routerAPIv1.Use(middleware.CROSMiddleware)
 	router.Use(authMiddleware.Middleware)
 
+	fmt.Println("Starting HTTP server on :" + *HTTPAddr)
 	fmt.Println(http.ListenAndServe(":"+*HTTPAddr, router))
 }
