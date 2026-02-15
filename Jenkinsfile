@@ -15,6 +15,12 @@ pipeline {
         GOCACHE = "${WORKSPACE}/.cache/go-build"
         PATH = "${WORKSPACE}/bin:${GOPATH}/bin:${PATH}"
         
+        // Semantic Versioning - Override these via Jenkins parameters
+        MAJOR = "${env.MAJOR ?: '1'}"
+        MINOR = "${env.MINOR ?: '0'}"
+        PATCH = "${env.PATCH ?: env.BUILD_NUMBER}"
+        VERSION = "${MAJOR}.${MINOR}.${PATCH}"
+        
         // Docker Settings - Update these!
         IMAGE_REPO = "rahulbshinde1/iamgenii"
         DOCKER_CREDS_ID = "docker-hub-credentials"
@@ -76,10 +82,10 @@ pipeline {
                           echo $DOCKER_PASS | ./bin/docker login -u $DOCKER_USER --password-stdin
                           
                           # Build Docker image
-                          ./bin/docker build -t ${IMAGE_REPO}:${BUILD_NUMBER} .
+                          ./bin/docker build -t ${IMAGE_REPO}:${VERSION} .
                           
                           # Push Image
-                          ./bin/docker push ${IMAGE_REPO}:${BUILD_NUMBER}
+                          ./bin/docker push ${IMAGE_REPO}:${VERSION}
                         '''
                     }
                 }
@@ -97,7 +103,11 @@ pipeline {
 
                   # Update chart values (Image and Tag)
                   sed -i "s|repository: .*|repository: ${IMAGE_REPO}|" ${WORKSPACE}/helm/iamgenii/values.yaml
-                  sed -i "s/tag: .*/tag: \"${BUILD_NUMBER}\"/" ${WORKSPACE}/helm/iamgenii/values.yaml
+                  sed -i "s/tag: .*/tag: \"${VERSION}\"/" ${WORKSPACE}/helm/iamgenii/values.yaml
+                  
+                  # Update Chart.yaml with version
+                  sed -i "s/^version: .*/version: ${VERSION}/" ${WORKSPACE}/helm/iamgenii/Chart.yaml
+                  sed -i "s/^appVersion: .*/appVersion: \"${VERSION}\"/" ${WORKSPACE}/helm/iamgenii/Chart.yaml
 
                   # Debug directory
                   pwd
