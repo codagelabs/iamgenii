@@ -12,7 +12,7 @@ pipeline {
         GOTOOLCHAIN = 'auto'
         GOPATH = "${WORKSPACE}/go"
         GOCACHE = "${WORKSPACE}/.cache/go-build"
-        PATH = "${GOPATH}/bin:${PATH}"
+        PATH = "${WORKSPACE}/bin:${GOPATH}/bin:${PATH}"
     }
 
     stages {
@@ -55,10 +55,10 @@ pipeline {
         stage('Package Helm') {
             steps {
                 sh '''
-                  # Install helm
+                  # Install helm locally
                   curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
                   chmod 700 get_helm.sh
-                  ./get_helm.sh
+                  USE_SUDO=false HELM_INSTALL_DIR=./bin ./get_helm.sh
 
                   # Create manifest artifact
                   helm template iamgenii ./helm/iamgenii > manifest.yaml
