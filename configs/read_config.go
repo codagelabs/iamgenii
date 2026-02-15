@@ -8,7 +8,6 @@ import (
 )
 
 // type Config interface(
-
 // )
 
 //NewConfiguration Reads all Config details

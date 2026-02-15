@@ -68,6 +68,11 @@ import (
 	venRepositories "github.com/iamgenii/svc/vendors/pkg/v1/repositories"
 	venServices "github.com/iamgenii/svc/vendors/pkg/v1/services"
 
+	probesEndpoints "github.com/iamgenii/svc/probes/pkg/v1/endpoints"
+	probesHandlers "github.com/iamgenii/svc/probes/pkg/v1/handlers"
+	probesRepositories "github.com/iamgenii/svc/probes/pkg/v1/repositories"
+	probesServices "github.com/iamgenii/svc/probes/pkg/v1/services"
+
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -351,6 +356,12 @@ func Run() {
 	authHandler := authHandlers.NewLoginHandler(authService, httpReader, httpWriter, cookies)
 	prptectedUrlService := middleware.NewProtectedUrlService()
 	authEndpoints.NewAuthorizationRoutes(routerAPIv1, authHandler)
+
+	//probes dependencies
+	probesRepos := probesRepositories.NewProbesRepository(connectionPool)
+	probesSvc := probesServices.NewProbesService(probesRepos)
+	probesHandler := probesHandlers.NewProbesHandlers(probesSvc, httpWriter)
+	probesEndpoints.NewProbesRoutes(router, probesHandler)
 	authMiddleware := middleware.NewAuthMiddleware(authUtils, jwtUtils, cryptoUtils, httpWriter, prptectedUrlService)
 
 	routerAPIv1.Use(middleware.LoggingMiddleware)
