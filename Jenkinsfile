@@ -86,6 +86,9 @@ pipeline {
                           
                           # Push Image
                           ./bin/docker push ${IMAGE_REPO}:${VERSION}
+                          
+                          # Cleanup docker binary
+                          rm -f ./bin/docker
                         '''
                     }
                 }
@@ -118,6 +121,9 @@ pipeline {
 
                   # Package helm chart
                   helm package ${WORKSPACE}/helm/iamgenii
+                  
+                  # Cleanup binaries
+                  rm -f ./bin/helm ./bin/app get_helm.sh
                 '''
             }
         }
