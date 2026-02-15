@@ -61,11 +61,15 @@ pipeline {
                   chmod 700 get_helm.sh
                   USE_SUDO=false HELM_INSTALL_DIR=$PWD/bin ./get_helm.sh
 
+                  # Debug directory
+                  pwd
+                  ls -R helm
+
                   # Create manifest artifact
-                  helm template iamgenii ./helm/iamgenii > manifest.yaml
+                  helm template iamgenii ${WORKSPACE}/helm/iamgenii > manifest.yaml
 
                   # Package helm chart
-                  helm package ./helm/iamgenii
+                  helm package ${WORKSPACE}/helm/iamgenii
                 '''
             }
         }
