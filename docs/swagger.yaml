@@ -1,0 +1,148 @@
+basePath: /api/v1
+definitions:
+  models.Cities:
+    properties:
+      cities_id:
+        type: integer
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      name:
+        type: string
+      state_id:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  models.HTTPErrResp:
+    properties:
+      message:
+        type: string
+      status:
+        type: integer
+    type: object
+  models.HTTPResp:
+    properties:
+      data: {}
+      message:
+        type: string
+      status:
+        type: integer
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@iamgenii.com
+    name: API Support
+  description: IamGenii service API documentation
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: IamGenii API
+  version: "1.0"
+paths:
+  /cities/:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve all cities
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Cities'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.HTTPErrResp'
+      summary: Get all cities
+      tags:
+      - cities
+    post:
+      consumes:
+      - application/json
+      description: Create a new city entry
+      parameters:
+      - description: City object
+        in: body
+        name: city
+        required: true
+        schema:
+          $ref: '#/definitions/models.Cities'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.HTTPResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.HTTPErrResp'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.HTTPErrResp'
+      summary: Create a new city
+      tags:
+      - cities
+  /health:
+    get:
+      description: Check application health status
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/models.HTTPErrResp'
+      summary: Health check
+      tags:
+      - probes
+  /live:
+    get:
+      description: Check if the application is running
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Liveness probe
+      tags:
+      - probes
+  /ready:
+    get:
+      description: Check if the application is ready to serve traffic
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/models.HTTPErrResp'
+      summary: Readiness probe
+      tags:
+      - probes
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

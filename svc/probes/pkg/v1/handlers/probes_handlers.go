@@ -22,12 +22,25 @@ func NewProbesHandlers(probesSvc services.ProbesService, httpWriter http_utils.H
 	}
 }
 
-// Liveness handler Function
+// Liveness godoc
+// @Summary      Liveness probe
+// @Description  Check if the application is running
+// @Tags         probes
+// @Produce      json
+// @Success      200  {string}  string  "OK"
+// @Router       /live [get]
 func (h *ProbesHandlers) Liveness(w http.ResponseWriter, r *http.Request) {
 	h.httpWriter.WriteOKResponse(w, http.StatusOK, "OK")
 }
 
-// Readiness handler Function
+// Readiness godoc
+// @Summary      Readiness probe
+// @Description  Check if the application is ready to serve traffic
+// @Tags         probes
+// @Produce      json
+// @Success      200  {string}  string  "OK"
+// @Failure      503  {object}  models.HTTPErrResp
+// @Router       /ready [get]
 func (h *ProbesHandlers) Readiness(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	if err := h.probesSvc.HealthCheck(ctx); err != nil {
@@ -38,7 +51,14 @@ func (h *ProbesHandlers) Readiness(w http.ResponseWriter, r *http.Request) {
 	h.httpWriter.WriteOKResponse(w, http.StatusOK, "OK")
 }
 
-// Health handler Function
+// Health godoc
+// @Summary      Health check
+// @Description  Check application health status
+// @Tags         probes
+// @Produce      json
+// @Success      200  {string}  string  "OK"
+// @Failure      503  {object}  models.HTTPErrResp
+// @Router       /health [get]
 func (h *ProbesHandlers) Health(w http.ResponseWriter, r *http.Request) {
 	h.Readiness(w, r)
 }

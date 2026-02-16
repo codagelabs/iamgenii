@@ -73,6 +73,9 @@ import (
 	probesRepositories "github.com/iamgenii/svc/probes/pkg/v1/repositories"
 	probesServices "github.com/iamgenii/svc/probes/pkg/v1/services"
 
+	_ "github.com/iamgenii/docs" // swagger docs
+	httpSwagger "github.com/swaggo/http-swagger"
+
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -362,6 +365,10 @@ func Run() {
 	probesSvc := probesServices.NewProbesService(probesRepos)
 	probesHandler := probesHandlers.NewProbesHandlers(probesSvc, httpWriter)
 	probesEndpoints.NewProbesRoutes(router, probesHandler)
+
+	// Swagger UI
+	router.PathPrefix("/swagger/").Handler(httpSwagger.WrapHandler)
+
 	authMiddleware := middleware.NewAuthMiddleware(authUtils, jwtUtils, cryptoUtils, httpWriter, prptectedUrlService)
 
 	routerAPIv1.Use(middleware.LoggingMiddleware)

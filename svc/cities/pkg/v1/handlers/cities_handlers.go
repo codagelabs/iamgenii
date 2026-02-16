@@ -27,7 +27,17 @@ func NewCitiesHandler(citiesService service.CitiesService, httpReader http_utils
 	}
 }
 
-// CreateCities handler Function
+// CreateCities godoc
+// @Summary      Create a new city
+// @Description  Create a new city entry
+// @Tags         cities
+// @Accept       json
+// @Produce      json
+// @Param        city  body      models.Cities  true  "City object"
+// @Success      201   {object}  models.HTTPResp
+// @Failure      400   {object}  models.HTTPErrResp
+// @Failure      500   {object}  models.HTTPErrResp
+// @Router       /cities/ [post]
 func (citiesHandlers CitiesHandlers) CreateCities(w http.ResponseWriter, req *http.Request) {
 	ctx := req.Context()
 	categories := models.Cities{}
@@ -47,7 +57,15 @@ func (citiesHandlers CitiesHandlers) CreateCities(w http.ResponseWriter, req *ht
 
 }
 
-// GetCities handler Function
+// GetCities godoc
+// @Summary      Get all cities
+// @Description  Retrieve all cities
+// @Tags         cities
+// @Accept       json
+// @Produce      json
+// @Success      200  {array}   models.Cities
+// @Failure      500  {object}  models.HTTPErrResp
+// @Router       /cities/ [get]
 func (citiesHandlers CitiesHandlers) GetCities(w http.ResponseWriter,
 	req *http.Request) {
 	ctx := req.Context()

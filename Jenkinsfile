@@ -57,6 +57,12 @@ pipeline {
         stage('Build') {
             steps {
                 sh '''
+                  # Install swag for swagger docs generation
+                  go install github.com/swaggo/swag/cmd/swag@latest
+                  
+                  # Generate swagger docs
+                  ~/go/bin/swag init -g main.go --output ./docs
+                  
                   GOOS=linux GOARCH=amd64 \
                   go build -o bin/app cmd/main.go
                 '''
